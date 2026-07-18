@@ -5,10 +5,13 @@ class TextFieldWidget extends StatelessWidget {
     super.key,
     this.label,
     this.validator,
+    this.controller,
   });
 
   final String? label;
+  final TextEditingController? controller;
   final String? Function(String?)? validator;
+
   @override
   Widget build(BuildContext context) {
     final border = OutlineInputBorder();
@@ -20,6 +23,7 @@ class TextFieldWidget extends StatelessWidget {
         Text(label!),
         TextFormField(
           validator: validator,
+          controller: controller,
           decoration: InputDecoration(
             border: border
           ),
