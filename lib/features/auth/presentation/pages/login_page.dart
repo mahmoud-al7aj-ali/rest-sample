@@ -38,8 +38,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        if(state.user != null){
-          print("welcome: ${state.user!.name}");
+        if(state.authStatus == AuthStatus.authenticated){
           context.pushReplacement(HomePage());
         }
       },

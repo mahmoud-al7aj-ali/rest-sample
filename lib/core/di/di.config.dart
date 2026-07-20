@@ -14,6 +14,9 @@ import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:rest_sample/core/network/api_client.dart' as _i191;
 import 'package:rest_sample/core/network/dio_client.dart' as _i991;
+import 'package:rest_sample/core/storage/app_storage.dart' as _i943;
+import 'package:rest_sample/core/storage/secure_storage.dart' as _i747;
+import 'package:rest_sample/core/storage/unsecure_storage.dart' as _i172;
 import 'package:rest_sample/features/auth/data/datasources/auth_remote_data_source.dart'
     as _i417;
 import 'package:rest_sample/features/auth/data/repositories/auth_repository_impl.dart'
@@ -34,12 +37,20 @@ extension GetItInjectableX on _i174.GetIt {
     _i526.EnvironmentFilter? environmentFilter,
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
+    gh.lazySingleton<_i747.SecureStorage>(() => _i747.SecureStorage());
+    gh.lazySingleton<_i172.UnsecureStorage>(() => _i172.UnsecureStorage());
     gh.factory<_i191.ApiClient>(() => _i991.DioClient(dio: gh<_i361.Dio>()));
     gh.factory<_i417.AuthRemoteDataSource>(
       () => _i417.AuthRemoteDataSource(gh<_i191.ApiClient>()),
     );
     gh.factory<_i1072.AuthRepository>(
       () => _i52.AuthRepositoryImpl(gh<_i417.AuthRemoteDataSource>()),
+    );
+    gh.lazySingleton<_i943.AppStorage>(
+      () => _i943.AppStorage(
+        gh<_i747.SecureStorage>(),
+        gh<_i172.UnsecureStorage>(),
+      ),
     );
     gh.factory<_i652.LoginUseCase>(
       () => _i652.LoginUseCase(gh<_i1072.AuthRepository>()),
@@ -48,8 +59,11 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i152.RegisterUseCase(gh<_i1072.AuthRepository>()),
     );
     gh.factory<_i364.AuthBloc>(
-      () =>
-          _i364.AuthBloc(gh<_i152.RegisterUseCase>(), gh<_i652.LoginUseCase>()),
+      () => _i364.AuthBloc(
+        gh<_i152.RegisterUseCase>(),
+        gh<_i652.LoginUseCase>(),
+        gh<_i943.AppStorage>(),
+      ),
     );
     return this;
   }

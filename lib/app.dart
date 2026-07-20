@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rest_sample/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:rest_sample/features/auth/presentation/bloc/auth_state.dart';
 import 'package:rest_sample/features/auth/presentation/pages/login_page.dart';
-import 'package:rest_sample/features/auth/presentation/pages/register_page.dart';
 
 import 'core/di/di.dart';
+import 'core/extensions/navigation_ext.dart';
+import 'features/splash/presentation/pages/splash_page.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -19,7 +21,14 @@ class App extends StatelessWidget {
             seedColor: Colors.teal,
           ),
         ),
-        home: RegisterPage(),
+        home: BlocListener<AuthBloc, AuthState>(
+          listener: (context, state) {
+            if (state.authStatus == AuthStatus.unauthenticated) {
+              context.pushReplacement(LoginPage());
+            }
+          },
+          child: SplashPage(),
+        ),
       ),
     );
   }

@@ -14,3 +14,6 @@ class AuthLoginEvent extends AuthEvent{
 
   AuthLoginEvent({required this.request});
 }
+
+class AuthLogoutEvent extends AuthEvent{
+}

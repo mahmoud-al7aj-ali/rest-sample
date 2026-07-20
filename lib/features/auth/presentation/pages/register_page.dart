@@ -40,7 +40,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        if(state.user != null){
+        if(state.authStatus == AuthStatus.authenticated){
           context.pushReplacement(HomePage());
         }
       },
