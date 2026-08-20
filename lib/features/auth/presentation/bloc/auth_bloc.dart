@@ -10,7 +10,7 @@ import 'package:rest_sample/features/auth/domain/usecases/register_usecase.dart'
 import 'package:rest_sample/features/auth/presentation/bloc/auth_event.dart';
 import 'package:rest_sample/features/auth/presentation/bloc/auth_state.dart';
 
-@injectable
+@singleton
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final RegisterUseCase registerUseCase;
   final LoginUseCase loginUseCase;

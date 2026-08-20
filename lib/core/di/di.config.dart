@@ -58,7 +58,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i152.RegisterUseCase>(
       () => _i152.RegisterUseCase(gh<_i1072.AuthRepository>()),
     );
-    gh.factory<_i364.AuthBloc>(
+    gh.singleton<_i364.AuthBloc>(
       () => _i364.AuthBloc(
         gh<_i152.RegisterUseCase>(),
         gh<_i652.LoginUseCase>(),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rest_sample/core/di/di.dart';
 import 'package:rest_sample/core/extensions/navigation_ext.dart';
 import 'package:rest_sample/features/auth/presentation/bloc/auth_bloc.dart';
@@ -21,8 +22,7 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(
             onPressed: () {
-              di<AuthBloc>().add(AuthLogoutEvent());
-              context.pushReplacement(LoginPage());
+              context.read<AuthBloc>().add(AuthLogoutEvent());
             },
             icon: Icon(Icons.logout_rounded),
           ),
